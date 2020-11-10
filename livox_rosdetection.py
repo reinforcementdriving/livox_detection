@@ -181,6 +181,7 @@ class Detector(object):
                 continue
             points_list.append(point)
         points_list = np.asarray(points_list)
+        points_list[:,2] -= 1.9 #此处将地面高度修正到-1.9m处
         pointcloud_msg = pcl2.create_cloud_xyz32(header, points_list[:, 0:3])
         vox = self.data2voxel(points_list)
         vox = np.expand_dims(vox, axis=0)
@@ -286,6 +287,7 @@ class Detector(object):
                 marker_array_text.markers.append(marker1)
         mnum = len(boxes)
         self.marker_pub.publish(marker_array)
+        self.marker_text_pub.publish(marker_array_text)
         self.pointcloud_pub.publish(pointcloud_msg)
 
 
